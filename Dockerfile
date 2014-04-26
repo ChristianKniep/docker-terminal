@@ -10,6 +10,7 @@ MAINTAINER "Christian Kniep <christian@qnib.org>"
 RUN yum install -y supervisor 
 RUN mkdir -p /var/log/supervisor
 RUN sed -i -e 's/nodaemon=false/nodaemon=true/' /etc/supervisord.conf
+ADD root/bin/supervisor_daemonize.sh /root/bin/supervisor_daemonize.sh
 
 # setup
 ADD etc/supervisord.d/setup.ini /etc/supervisord.d/setup.ini
