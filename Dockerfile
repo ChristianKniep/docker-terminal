@@ -14,7 +14,7 @@ ADD root/bin/supervisor_daemonize.sh /root/bin/supervisor_daemonize.sh
 
 # setup
 ADD etc/supervisord.d/setup.ini /etc/supervisord.d/setup.ini
-ONBUILD ADD root/bin/setup.sh /root/bin/
+ADD root/bin/setup.sh /root/bin/
 ONBUILD ADD root/dns.aliases root/dns.aliases
 
 # syslog
