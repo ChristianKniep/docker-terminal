@@ -42,5 +42,9 @@ RUN mkdir -p /var/log/supervisor
 RUN sed -i -e 's/nodaemon=false/nodaemon=true/' /etc/supervisord.conf
 ADD root/bin/supervisor_daemonize.sh /root/bin/supervisor_daemonize.sh
 
-
+# carboniface
+RUN yum install -y python-docopt
+ADD yum-cache/carboniface /tmp/yum-cache/carboniface
+RUN yum install -y /tmp/yum-cache/carboniface/python-carboniface-*
+RUN rm -rf /tmp/yum-cache/carboniface
 CMD /bin/bash
