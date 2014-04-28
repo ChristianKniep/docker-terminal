@@ -31,7 +31,7 @@ ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
 ADD yum-cache/supervisor /tmp/yum-cache/supervisor
 RUN yum install -y python-meld3 python-setuptools
 ### Old version w/o syslog
-#RUN yum install -y supervisor 
+#RUN yum install -y supervisor
 ### Workaround
 RUN yum install -y /tmp/yum-cache/supervisor/supervisor-3.0*
 RUN echo "3.0" > /usr/lib/python2.7/site-packages/supervisor/version.txt
@@ -47,4 +47,9 @@ RUN yum install -y python-docopt
 ADD yum-cache/carboniface /tmp/yum-cache/carboniface
 RUN yum install -y /tmp/yum-cache/carboniface/python-carboniface-*
 RUN rm -rf /tmp/yum-cache/carboniface
+
+## confd
+ADD usr/local/bin/confd /usr/local/bin/confd
+RUN mkdir -p /etc/confd/{conf.d,templates}
+
 CMD /bin/bash
