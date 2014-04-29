@@ -52,4 +52,7 @@ RUN rm -rf /tmp/yum-cache/carboniface
 ADD usr/local/bin/confd /usr/local/bin/confd
 RUN mkdir -p /etc/confd/{conf.d,templates}
 
+# etcdctl
+ADD usr/bin/etcdctl /usr/bin/etcdctl
+
 CMD /bin/bash
