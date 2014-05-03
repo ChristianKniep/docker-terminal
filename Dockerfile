@@ -3,7 +3,7 @@
 # - init (supervisord)
 # - syslog (syslog-ng)
 # - profiling (diamond)
-FROM qnib/fd20
+FROM qnib/supervisor
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 # setup
@@ -26,21 +26,6 @@ RUN rm -rf /etc/diamond
 ADD etc/diamond /etc/diamond
 RUN mkdir -p /var/log/diamond
 ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
-
-## supervisord
-ADD yum-cache/supervisor /tmp/yum-cache/supervisor
-RUN yum install -y python-meld3 python-setuptools
-### Old version w/o syslog
-#RUN yum install -y supervisor
-### Workaround
-RUN yum install -y /tmp/yum-cache/supervisor/supervisor-3.0*
-RUN echo "3.0" > /usr/lib/python2.7/site-packages/supervisor/version.txt
-ADD etc/supervisord.conf /etc/supervisord.conf
-### \WORKAROUND
-RUN rm -rf /tmp/yum-cache/supervisor
-RUN mkdir -p /var/log/supervisor
-RUN sed -i -e 's/nodaemon=false/nodaemon=true/' /etc/supervisord.conf
-ADD root/bin/supervisor_daemonize.sh /root/bin/supervisor_daemonize.sh
 
 # carboniface
 RUN yum install -y python-docopt
