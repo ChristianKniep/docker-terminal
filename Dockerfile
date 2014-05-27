@@ -42,7 +42,7 @@ ADD usr/bin/etcdctl /usr/bin/etcdctl
 
 # python-etcd
 ADD yum-cache/python-etcd /tmp/yum-cache/python-etcd
-RUN yum install -y /tmp/yum-cache/python-etcd/python-pyopenssl-0.13.1-1.x86_64.rpm /tmp/yum-cache/python-etcd/python-etcd-0.3.0-1.noarch.rpm
+RUN yum install -y python-requests /tmp/yum-cache/python-etcd/python-etcd-0.3.0-20140526.1.noarch.rpm
 RUN rm -rf /tmp/yum-cache/python-etcd
 
 
