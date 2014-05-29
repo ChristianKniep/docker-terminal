@@ -40,4 +40,10 @@ RUN mkdir -p /etc/confd/{conf.d,templates}
 # etcdctl
 ADD usr/bin/etcdctl /usr/bin/etcdctl
 
+# python-etcd
+ADD yum-cache/python-etcd /tmp/yum-cache/python-etcd
+RUN yum install -y python-requests /tmp/yum-cache/python-etcd/python-etcd-0.3.0-20140526.1.noarch.rpm
+RUN rm -rf /tmp/yum-cache/python-etcd
+
+
 CMD /bin/bash
