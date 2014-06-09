@@ -3,7 +3,7 @@
 # - init (supervisord)
 # - syslog (syslog-ng)
 # - profiling (diamond)
-FROM qnib-supervisor
+FROM qnib/supervisor
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 # setup
