@@ -41,9 +41,17 @@ RUN mkdir -p /etc/confd/{conf.d,templates}
 ADD usr/bin/etcdctl /usr/bin/etcdctl
 
 # python-etcd
-ADD yum-cache/python-etcd /tmp/yum-cache/python-etcd
-RUN yum install -y python-requests /tmp/yum-cache/python-etcd/python-etcd-0.3.0-20140526.1.noarch.rpm
-RUN rm -rf /tmp/yum-cache/python-etcd
+# python-etcd
+ADD yum-cache/pyetcd/ /tmp/yum-cache/pyetcd/
+RUN yum install -y /tmp/yum-cache/pyetcd/python-cryptography-0.2.2-1.x86_64.rpm
+RUN yum install -y /tmp/yum-cache/pyetcd/python-pyopenssl-0.13.1-1.x86_64.rpm
+RUN yum install -y python-urllib3-1.7-4.fc20.noarch
+RUN yum install -y python-requests
+RUN yum install -y /tmp/yum-cache/pyetcd/python-etcd-0.3.0-1.noarch.rpm
+RUN rm -rf /tmp/yum-cache/pyetcd
 
+ADD yum-cache/clustershell /tmp/yum-cache/clustershell
+RUN yum install -y /tmp/yum-cache/clustershell/python-clustershell-1.6-1.noarch.rpm
+RUN rm -rf /tmp/yum-cache/clustershell
 
 CMD /bin/bash
