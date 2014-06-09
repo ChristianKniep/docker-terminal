@@ -54,4 +54,9 @@ ADD yum-cache/clustershell /tmp/yum-cache/clustershell
 RUN yum install -y /tmp/yum-cache/clustershell/python-clustershell-1.6-1.noarch.rpm
 RUN rm -rf /tmp/yum-cache/clustershell
 
+ADD yum-cache/envoy /tmp/yum-cache/envoy
+RUN yum install -y /tmp/yum-cache/envoy/python-envoy-0.0.2-1.noarch.rpm
+RUN rm -rf /tmp/yum-cache/envoy
+
+
 CMD /bin/bash

@@ -23,5 +23,9 @@ MY_PTR=$(echo ${MY_IP}|sed -e 's#\.#/#g')
 echo "# curl -s -XPUT http://${MASTER_IP}:4001/v2/keys/helix/arpa/in-addr/${MY_PTR}/PTR -d value=$(hostname)."
 curl -s -XPUT http://${MASTER_IP}:4001/v2/keys/helix/arpa/in-addr/${MY_PTR}/PTR -d value="$(hostname)."
 
+if [[ $(hostname) == compute* ]];then
+   curl -s -XPUT http://${MASTER_IP}:4001/v2/keys/slurm/conf/last_update -d value="$(date +%s)"
+fi
+
 sleep 2
 exit 0
