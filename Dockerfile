@@ -17,7 +17,7 @@ ADD etc/syslog-ng/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
 ADD etc/supervisord.d/syslog-ng.ini /etc/supervisord.d/
 
 # Diamond
-RUN yum install -y python-configobj lm_sensors
+RUN yum install -y --nogpgcheck python-configobj lm_sensors
 ADD yum-cache/diamond /tmp/yum-cache/diamond
 RUN yum install -y /tmp/yum-cache/diamond/python-pysensors-*
 RUN yum install -y /tmp/yum-cache/diamond/python-diamond-*
