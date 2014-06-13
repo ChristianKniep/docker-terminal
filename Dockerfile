@@ -31,6 +31,8 @@ ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
 RUN yum install -y python-docopt
 ADD yum-cache/carboniface /tmp/yum-cache/carboniface
 RUN yum install -y /tmp/yum-cache/carboniface/python-carboniface-*
+RUN yum install -y /tmp/yum-cache/carboniface/python-schema-*
+
 RUN rm -rf /tmp/yum-cache/carboniface
 
 ## confd
