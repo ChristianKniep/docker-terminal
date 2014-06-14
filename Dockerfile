@@ -81,5 +81,7 @@ RUN echo "        StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 RUN echo "        UserKnownHostsFile=/dev/null" >> /etc/ssh/ssh_config
 RUN echo "        AddressFamily inet" >> /etc/ssh/ssh_config
 
+## TODO: Fix carboniface
+ADD usr/lib/python2.7/site-packages/carboniface.py /usr/lib/python2.7/site-packages/carboniface.py
 
 CMD /bin/bash
