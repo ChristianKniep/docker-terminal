@@ -64,13 +64,12 @@ RUN rm -rf /tmp/yum-cache/envoy
 # Set (very simple) password for root
 RUN echo "root:root"|chpasswd
 ADD root/ssh /root/.ssh
-RUN chmod 600 /root/.ssh/authorized_keys
+RUN chmod 600 /root/.ssh/authorized_keys /root/.ssh/id_rsa
 RUN chown -R root:root /root/*
 
 ### SSHD
 RUN yum install -y openssh-server
 RUN mkdir -p /var/run/sshd
-RUN useradd -g sshd sshd
 ADD root/bin/startup_sshd.sh /root/bin/startup_sshd.sh
 RUN sed -i -e 's/#UseDNS yes/UseDNS no/' /etc/ssh/sshd_config
 ADD etc/supervisord.d/sshd.ini /etc/supervisord.d/sshd.ini
