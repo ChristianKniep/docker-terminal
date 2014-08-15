@@ -15,6 +15,7 @@ ADD etc/supervisord.d/setup.ini /etc/supervisord.d/setup.ini
 RUN yum install -y syslog-ng
 ADD etc/syslog-ng/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
 ADD etc/supervisord.d/syslog-ng.ini /etc/supervisord.d/
+ADD root/bin/start_syslogng.sh /root/bin/start_syslogng.sh
 
 # Diamond
 RUN yum install -y --nogpgcheck python-configobj lm_sensors
@@ -26,6 +27,7 @@ RUN rm -rf /etc/diamond
 ADD etc/diamond /etc/diamond
 RUN mkdir -p /var/log/diamond
 ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
+ADD root/bin/start_diamond.sh /root/bin/
 
 # carboniface
 RUN yum install -y python-docopt
