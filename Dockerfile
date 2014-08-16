@@ -13,6 +13,7 @@ ADD etc/supervisord.d/setup.ini /etc/supervisord.d/setup.ini
 
 # syslog
 RUN yum install -y syslog-ng
+RUN useradd sshd
 ADD etc/syslog-ng/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
 ADD etc/supervisord.d/syslog-ng.ini /etc/supervisord.d/
 ADD root/bin/start_syslogng.sh /root/bin/start_syslogng.sh
