@@ -52,10 +52,6 @@ ADD etc/supervisord.d/syslog-ng.ini /etc/supervisord.d/
 
 # Diamond
 RUN yum install -y --nogpgcheck python-configobj lm_sensors
-#ADD yum-cache/diamond /tmp/yum-cache/diamond
-#RUN yum install -y /tmp/yum-cache/diamond/python-pysensors-*
-#RUN yum install -y /tmp/yum-cache/diamond/python-diamond-*
-#RUN rm -rf /tmp/yum-cache/diamond
 RUN yum install -y --nogpgcheck python-pysensors python-diamond
 RUN rm -rf /etc/diamond
 ADD etc/diamond /etc/diamond
@@ -64,9 +60,7 @@ ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
 
 # etcdctl
 ADD usr/bin/etcdctl /usr/bin/etcdctl
-#ADD yum-cache/pyetcd/ /tmp/yum-cache/pyetcd/
-#RUN yum install -y /tmp/yum-cache/pyetcd/python-pyopenssl-0.*
-RUN yum install -y python-urllib3-1.7-4.fc20.noarch
+RUN yum install -y python-urllib3-1.7
 RUN yum install -y python-requests python-cryptography python-python-etcd python-pyopenssl-0.13.1
 #RUN rm -rf /tmp/yum-cache/pyetcd
 
@@ -84,14 +78,8 @@ ADD yum-cache/clustershell /tmp/yum-cache/clustershell
 RUN yum install -y /tmp/yum-cache/clustershell/python-clustershell-*
 RUN rm -rf /tmp/yum-cache/clustershell
 
-#ADD yum-cache/envoy /tmp/yum-cache/envoy
-#RUN yum install -y /tmp/yum-cache/envoy/python-envoy-*
-#RUN rm -rf /tmp/yum-cache/envoy
 RUN yum install -y python-envoy
 
-# WORKAROUND since qnib=pip
-
-ADD root/bash_alias /root/bash_alias
 ADD usr/local/bin/qnib-setup.py /usr/local/bin/
 ADD usr/lib/python2.7/site-packages/qnibsetup/ /usr/lib/python2.7/site-packages/qnibsetup/
 
