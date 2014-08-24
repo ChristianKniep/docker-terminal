@@ -6,8 +6,13 @@
 FROM qnib/supervisor
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
+# Refresh yum
+RUN echo "2014-08-24";yum clean all
+
 # misc
 RUN yum install -y bind-utils vim
+
+ONBUILD ADD root/dns.aliases root/dns.aliases
 
 ##### USER
 # Set (very simple) password for root
@@ -29,67 +34,65 @@ RUN echo "        StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 RUN echo "        UserKnownHostsFile=/dev/null" >> /etc/ssh/ssh_config
 RUN echo "        AddressFamily inet" >> /etc/ssh/ssh_config
 
-
 # carboniface
 RUN yum install -y python-docopt
 ADD yum-cache/carboniface /tmp/yum-cache/carboniface
 RUN yum install -y /tmp/yum-cache/carboniface/python-carboniface-*
 RUN yum install -y /tmp/yum-cache/carboniface/python-schema-*
 RUN rm -rf /tmp/yum-cache/carboniface
+## TODO: Fix carboniface
+ADD usr/lib/python2.7/site-packages/carboniface.py /usr/lib/python2.7/site-packages/carboniface.py
 
 # syslog
 RUN yum install -y syslog-ng
 RUN getent passwd sshd || useradd -g sshd sshd
 ADD etc/syslog-ng/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
 ADD etc/supervisord.d/syslog-ng.ini /etc/supervisord.d/
-ADD root/bin/start_syslogng.sh /root/bin/start_syslogng.sh
+#ADD root/bin/start_syslogng.sh /root/bin/start_syslogng.sh
 
 # Diamond
 RUN yum install -y --nogpgcheck python-configobj lm_sensors
-ADD yum-cache/diamond /tmp/yum-cache/diamond
-RUN yum install -y /tmp/yum-cache/diamond/python-pysensors-*
-RUN yum install -y /tmp/yum-cache/diamond/python-diamond-*
-RUN rm -rf /tmp/yum-cache/diamond
+#ADD yum-cache/diamond /tmp/yum-cache/diamond
+#RUN yum install -y /tmp/yum-cache/diamond/python-pysensors-*
+#RUN yum install -y /tmp/yum-cache/diamond/python-diamond-*
+#RUN rm -rf /tmp/yum-cache/diamond
+RUN yum install -y --nogpgcheck python-pysensors python-diamond
 RUN rm -rf /etc/diamond
 ADD etc/diamond /etc/diamond
 RUN mkdir -p /var/log/diamond
 ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
-ADD root/bin/start_diamond.sh /root/bin/
+
+# etcdctl
+ADD usr/bin/etcdctl /usr/bin/etcdctl
+#ADD yum-cache/pyetcd/ /tmp/yum-cache/pyetcd/
+#RUN yum install -y /tmp/yum-cache/pyetcd/python-pyopenssl-0.*
+RUN yum install -y python-urllib3-1.7-4.fc20.noarch
+RUN yum install -y python-requests python-cryptography python-python-etcd python-pyopenssl-0.13.1
+#RUN rm -rf /tmp/yum-cache/pyetcd
 
 # setup
-#RUN yum install -y python-netifaces python-python-etcd
+RUN yum install -y python-netifaces 
 ADD etc/qnib-setup.cfg /etc/
-ONBUILD ADD root/dns.aliases root/dns.aliases
 ADD etc/supervisord.d/setup.ini /etc/supervisord.d/setup.ini
 
 ## confd
 ADD usr/local/bin/confd /usr/local/bin/confd
 RUN mkdir -p /etc/confd/{conf.d,templates}
 
-# etcdctl
-ADD usr/bin/etcdctl /usr/bin/etcdctl
-ADD yum-cache/pyetcd/ /tmp/yum-cache/pyetcd/
-RUN yum install -y /tmp/yum-cache/pyetcd/python-cryptography-0.*
-RUN yum install -y /tmp/yum-cache/pyetcd/python-pyopenssl-0.*
-RUN yum install -y python-urllib3-1.7-4.fc20.noarch
-RUN yum install -y python-requests
-RUN yum install -y /tmp/yum-cache/pyetcd/python-etcd-*
-RUN rm -rf /tmp/yum-cache/pyetcd
 
 ADD yum-cache/clustershell /tmp/yum-cache/clustershell
 RUN yum install -y /tmp/yum-cache/clustershell/python-clustershell-*
 RUN rm -rf /tmp/yum-cache/clustershell
 
-ADD yum-cache/envoy /tmp/yum-cache/envoy
-RUN yum install -y /tmp/yum-cache/envoy/python-envoy-*
-RUN rm -rf /tmp/yum-cache/envoy
-## TODO: Fix carboniface
-ADD usr/lib/python2.7/site-packages/carboniface.py /usr/lib/python2.7/site-packages/carboniface.py
+#ADD yum-cache/envoy /tmp/yum-cache/envoy
+#RUN yum install -y /tmp/yum-cache/envoy/python-envoy-*
+#RUN rm -rf /tmp/yum-cache/envoy
+RUN yum install -y python-envoy
 
 # WORKAROUND since qnib=pip
 
 ADD root/bash_alias /root/bash_alias
 ADD usr/local/bin/qnib-setup.py /usr/local/bin/
-ADD usr/lib/python2.7/site-package/qnibsetup /usr/lib/python2.7/site-package/
+ADD usr/lib/python2.7/site-packages/qnibsetup/ /usr/lib/python2.7/site-packages/qnibsetup/
 
 CMD /bin/bash
