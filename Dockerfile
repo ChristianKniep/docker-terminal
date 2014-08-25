@@ -12,8 +12,6 @@ RUN echo "2014-08-24";yum clean all
 # misc
 RUN yum install -y bind-utils vim
 
-ONBUILD ADD root/dns.aliases root/dns.aliases
-
 ##### USER
 # Set (very simple) password for root
 RUN echo "root:root"|chpasswd
