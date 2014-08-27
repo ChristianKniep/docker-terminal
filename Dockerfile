@@ -80,5 +80,6 @@ RUN yum install -y python-envoy
 
 ADD usr/local/bin/qnib-setup.py /usr/local/bin/
 ADD usr/lib/python2.7/site-packages/qnibsetup/ /usr/lib/python2.7/site-packages/qnibsetup/
+RUN echo 'alias qsetup="PYTHONPATH=/data/usr/lib/python2.7/site-packages/ /data/usr/local/bin/qnib-setup.py"' >> /etc/bashrc
 
 CMD /bin/bash
