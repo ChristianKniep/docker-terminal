@@ -1,0 +1,3 @@
+#!/bin/bash
+
+alias qsetup="PYTHONPATH=/data/usr/lib/python2.7/site-packages/ /data/usr/local/bin/qnib-setup.py"
