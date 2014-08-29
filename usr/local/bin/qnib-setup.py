@@ -38,7 +38,6 @@ def main():
     if HAVE_DOCOPT:
         options = docopt(__doc__,  version='Test Script 0.1')
     qcfg = QnibConfig(options)
-    print qcfg
     qs =QnibSetup(qcfg)
     qs.run()
 
