@@ -1,3 +1,4 @@
 #!/bin/bash
 
+alias disable_setup='grep autostart /etc/supervisord.d/setup.ini||sed -i -e "/command/a autostart=false" /etc/supervisord.d/setup.ini'
 alias qsetup="PYTHONPATH=/data/usr/lib/python2.7/site-packages/ /data/usr/local/bin/qnib-setup.py"
