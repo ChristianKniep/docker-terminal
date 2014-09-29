@@ -78,7 +78,7 @@ RUN rm -rf /tmp/yum-cache/clustershell
 
 RUN yum install -y python-envoy
 
-RUN echo "20140914.1"; yum clean all; yum install -y python-qnibsetup
+RUN echo "20140929.1"; yum clean all; yum install -y python-qnibsetup
 RUN echo 'alias qsetup="PYTHONPATH=/data/usr/lib/python2.7/site-packages/ /data/usr/local/bin/qnib-setup.py"' >> /etc/bashrc
 RUN echo "alias disable_setup='grep autostart /etc/supervisord.d/setup.ini||sed -i -e \"/command/a autostart=false\" /etc/supervisord.d/setup.ini'" >> /etc/bashrc
 
