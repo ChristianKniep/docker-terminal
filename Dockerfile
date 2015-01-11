@@ -52,6 +52,7 @@ ADD etc/supervisord.d/syslog-ng.ini /etc/supervisord.d/
 ADD etc/consul.d/check_syslog-ng.json /etc/consul.d/check_syslog-ng.json
 
 # Diamond
+RUN yum clean all
 RUN yum install -y --nogpgcheck python-configobj lm_sensors
 RUN yum install -y --nogpgcheck python-pysensors python-diamond
 RUN rm -rf /etc/diamond
