@@ -1,0 +1,10 @@
+{
+  "service": {
+    "name": "syslog",
+    "port": 514,
+    "check": {
+      "script": "nmap 127.0.0.1 -PN -p 514 | grep open",
+      "interval": "10s"
+    }
+  }
+}

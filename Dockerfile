@@ -3,14 +3,14 @@
 # - init (supervisord)
 # - syslog (syslog-ng)
 # - profiling (diamond)
-FROM qnib/supervisor
+FROM qnib/consul
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 # Refresh yum
 RUN echo "2014-08-24";yum clean all
 
 # misc
-RUN yum install -y bind-utils vim
+RUN yum install -y bind-utils vim nmap
 
 ##### USER
 # Set (very simple) password for root
@@ -25,6 +25,8 @@ RUN mkdir -p /var/run/sshd
 ADD root/bin/startup_sshd.sh /root/bin/startup_sshd.sh
 RUN sed -i -e 's/#UseDNS yes/UseDNS no/' /etc/ssh/sshd_config
 ADD etc/supervisord.d/sshd.ini /etc/supervisord.d/sshd.ini
+ADD etc/consul.d/check_sshd.json /etc/consul.d/check_sshd.json
+
 
 # We do not care about the known_hosts-file and all the security
 ####### Highly unsecure... !1!! ###########
@@ -47,6 +49,7 @@ RUN getent passwd sshd || useradd -g sshd sshd
 ADD etc/syslog-ng/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
 ADD etc/supervisord.d/syslog-ng.ini /etc/supervisord.d/
 #ADD root/bin/start_syslogng.sh /root/bin/start_syslogng.sh
+ADD etc/consul.d/check_syslog-ng.json /etc/consul.d/check_syslog-ng.json
 
 # Diamond
 RUN yum install -y --nogpgcheck python-configobj lm_sensors
@@ -55,12 +58,14 @@ RUN rm -rf /etc/diamond
 ADD etc/diamond /etc/diamond
 RUN mkdir -p /var/log/diamond
 ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
+ADD etc/consul.d/check_diamond.json /etc/consul.d/check_diamond.json
 
-# etcdctl
-ADD usr/bin/etcdctl /usr/bin/etcdctl
-RUN yum install -y python-urllib3-1.7
-RUN yum install -y python-requests python-cryptography python-python-etcd python-pyopenssl-0.13.1
-#RUN rm -rf /tmp/yum-cache/pyetcd
+
+ADD yum-cache/clustershell /tmp/yum-cache/clustershell
+RUN yum install -y /tmp/yum-cache/clustershell/python-clustershell-*
+RUN rm -rf /tmp/yum-cache/clustershell
+
+RUN yum install -y python-envoy
 
 # setup
 RUN yum install -y python-netifaces 
@@ -71,14 +76,8 @@ ADD etc/supervisord.d/setup.ini /etc/supervisord.d/setup.ini
 ADD usr/local/bin/confd /usr/local/bin/confd
 RUN mkdir -p /etc/confd/{conf.d,templates}
 
+RUN yum install -y python-qnibsetup
 
-ADD yum-cache/clustershell /tmp/yum-cache/clustershell
-RUN yum install -y /tmp/yum-cache/clustershell/python-clustershell-*
-RUN rm -rf /tmp/yum-cache/clustershell
-
-RUN yum install -y python-envoy
-
-RUN echo "20140929.1"; yum clean all; yum install -y python-qnibsetup
 RUN echo 'alias qsetup="PYTHONPATH=/data/usr/lib/python2.7/site-packages/ /data/usr/local/bin/qnib-setup.py"' >> /etc/bashrc
 RUN echo "alias disable_setup='grep autostart /etc/supervisord.d/setup.ini||sed -i -e \"/command/a autostart=false\" /etc/supervisord.d/setup.ini'" >> /etc/bashrc
 

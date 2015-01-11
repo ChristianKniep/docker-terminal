@@ -1,0 +1,8 @@
+{
+  "check": {
+    "id": "diamond",
+    "name": "Diamond daemon",
+    "script": "ps -ef | grep diamond",
+    "interval": "10s"
+  }
+}
