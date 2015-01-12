@@ -61,7 +61,6 @@ RUN mkdir -p /var/log/diamond
 ADD etc/diamond/handlers/GraphiteHandler.conf /etc/diamond/handlers/GraphiteHandler.conf
 ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
 ADD etc/consul.d/check_diamond.json /etc/consul.d/check_diamond.json
-ADD etc/diamond/collectors/NginxCollector.conf /etc/diamond/collectors/NginxCollector.conf
 
 
 ADD yum-cache/clustershell /tmp/yum-cache/clustershell
