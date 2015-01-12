@@ -2,7 +2,7 @@
   "check": {
     "id": "diamond",
     "name": "Diamond daemon",
-    "script": "ps -ef | grep diamond",
+    "script": "ps -ef |grep -v grep| grep 'diamond -f'",
     "interval": "10s"
   }
 }
