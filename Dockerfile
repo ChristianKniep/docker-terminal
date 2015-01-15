@@ -59,6 +59,7 @@ RUN rm -rf /etc/diamond
 ADD etc/diamond /etc/diamond
 RUN mkdir -p /var/log/diamond
 ADD etc/diamond/handlers/GraphiteHandler.conf /etc/diamond/handlers/GraphiteHandler.conf
+ADD opt/qnib/bin/start_diamond.sh /opt/qnib/bin/start_diamond.sh
 ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
 ADD etc/consul.d/check_diamond.json /etc/consul.d/check_diamond.json
 
@@ -79,6 +80,10 @@ ADD usr/local/bin/confd /usr/local/bin/confd
 RUN mkdir -p /etc/confd/{conf.d,templates}
 
 RUN yum install -y python-qnibsetup
+
+## logstash-forwarder certificates
+ADD etc/pki/tls/certs/logstash-forwarder.crt /etc/pki/tls/certs/logstash-forwarder.crt
+ADD etc/pki/tls/private/logstash-forwarder.key /etc/pki/tls/private/logstash-forwarder.key
 
 RUN echo 'alias qsetup="PYTHONPATH=/data/usr/lib/python2.7/site-packages/ /data/usr/local/bin/qnib-setup.py"' >> /etc/bashrc
 RUN echo "alias disable_setup='grep autostart /etc/supervisord.d/setup.ini||sed -i -e \"/command/a autostart=false\" /etc/supervisord.d/setup.ini'" >> /etc/bashrc
