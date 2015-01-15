@@ -48,7 +48,7 @@ RUN yum install -y syslog-ng
 RUN getent passwd sshd || useradd -g sshd sshd
 ADD etc/syslog-ng/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
 ADD etc/supervisord.d/syslog-ng.ini /etc/supervisord.d/
-#ADD root/bin/start_syslogng.sh /root/bin/start_syslogng.sh
+ADD etc/syslog-ng/conf.d/logstash.conf /etc/syslog-ng/conf.d/logstash.conf
 ADD etc/consul.d/check_syslog-ng.json /etc/consul.d/check_syslog-ng.json
 
 # Diamond
