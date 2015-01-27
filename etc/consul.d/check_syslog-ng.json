@@ -1,10 +1,8 @@
 {
-  "service": {
-    "name": "syslog",
-    "port": 514,
-    "check": {
-      "script": "nmap 127.0.0.1 -PN -p 514 | grep open",
-      "interval": "10s"
-    }
+  "check": {
+    "id": "syslog-ng",
+    "name": "Check if syslog-ng is working",
+    "script": "nmap 127.0.0.1 -PN -p 514 | grep open",
+    "interval": "10s"
   }
 }
