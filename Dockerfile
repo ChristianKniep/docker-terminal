@@ -21,6 +21,7 @@ RUN echo "root:root"|chpasswd && \
 RUN yum install -y openssh-server && \
     mkdir -p /var/run/sshd && \
     sed -i -e 's/#UseDNS yes/UseDNS no/' /etc/ssh/sshd_config
+RUN getent passwd sshd || useradd -g sshd sshd
 ADD root/bin/startup_sshd.sh /root/bin/startup_sshd.sh
 ADD etc/supervisord.d/sshd.ini /etc/supervisord.d/sshd.ini
 ADD etc/consul.d/check_sshd.json /etc/consul.d/check_sshd.json
@@ -38,14 +39,6 @@ RUN yum install -y python-docopt /tmp/yum-cache/carboniface/python-carboniface-*
     rm -rf /tmp/yum-cache/carboniface
 ## TODO: Fix carboniface
 ADD usr/lib/python2.7/site-packages/carboniface.py /usr/lib/python2.7/site-packages/carboniface.py
-
-# syslog
-RUN yum install -y syslog-ng
-RUN getent passwd sshd || useradd -g sshd sshd
-ADD etc/syslog-ng/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
-ADD etc/supervisord.d/syslog-ng.ini /etc/supervisord.d/
-ADD etc/syslog-ng/conf.d/logstash.conf /etc/syslog-ng/conf.d/logstash.conf
-ADD etc/consul.d/check_syslog-ng.json /etc/consul.d/check_syslog-ng.json
 
 # Diamond
 RUN yum clean all; yum install -y --nogpgcheck python-configobj lm_sensors python-pysensors python-diamond && \
