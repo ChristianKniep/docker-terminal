@@ -22,7 +22,7 @@ RUN yum install -y openssh-server && \
     mkdir -p /var/run/sshd && \
     sed -i -e 's/#UseDNS yes/UseDNS no/' /etc/ssh/sshd_config
 RUN getent passwd sshd || useradd -g sshd sshd
-ADD root/bin/startup_sshd.sh /root/bin/startup_sshd.sh
+ADD opt/qnib/bin/startup_sshd.sh /opt/qnib//bin/startup_sshd.sh
 ADD etc/supervisord.d/sshd.ini /etc/supervisord.d/sshd.ini
 ADD etc/consul.d/check_sshd.json /etc/consul.d/check_sshd.json
 
