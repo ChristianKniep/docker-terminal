@@ -11,7 +11,7 @@ RUN echo "2015-04-01";yum clean all && \
 ADD root/ssh /root/.ssh
 RUN echo "root:root"|chpasswd && \
     chmod 600 /root/.ssh/authorized_keys /root/.ssh/id_rsa && \
-    chown -R root:root /root/*
+    chown -R root:root /root/
 
 ### SSHD
 RUN yum install -y openssh-server && \
