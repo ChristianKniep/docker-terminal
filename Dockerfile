@@ -1,9 +1,4 @@
-###### QNIBTerminal images
-# A docker image that includes
-# - init (supervisord)
-# - syslog (syslog-ng)
-# - profiling (diamond)
-FROM qnib/consul
+FROM qnib/consul:cos7
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 # Refresh yum
