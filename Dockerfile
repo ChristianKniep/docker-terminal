@@ -7,7 +7,8 @@ FROM qnib/consul
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 # Refresh yum
-RUN echo "2014-08-24";yum clean all && \
+RUN echo "2015-04-01";yum clean all && \
+    yum install -y http://ftp-stud.hs-esslingen.de/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm && \
     yum install -y bind-utils vim nmap
 
 ##### USER
@@ -33,42 +34,20 @@ RUN echo "        StrictHostKeyChecking no" >> /etc/ssh/ssh_config && \
     echo "        UserKnownHostsFile=/dev/null" >> /etc/ssh/ssh_config && \
     echo "        AddressFamily inet" >> /etc/ssh/ssh_config
 
-# carboniface
-ADD yum-cache/carboniface /tmp/yum-cache/carboniface
-RUN yum install -y python-docopt /tmp/yum-cache/carboniface/python-carboniface-* /tmp/yum-cache/carboniface/python-schema-* && \
-    rm -rf /tmp/yum-cache/carboniface
-## TODO: Fix carboniface
-ADD usr/lib/python2.7/site-packages/carboniface.py /usr/lib/python2.7/site-packages/carboniface.py
-
 # Diamond
 RUN yum clean all; yum install -y --nogpgcheck python-configobj lm_sensors python-pysensors python-diamond && \
     rm -rf /etc/diamond && mkdir -p /var/log/diamond
 ADD etc/diamond /etc/diamond
-ADD etc/diamond/handlers/GraphiteHandler.conf /etc/diamond/handlers/GraphiteHandler.conf
 ADD opt/qnib/bin/start_diamond.sh /opt/qnib/bin/start_diamond.sh
 ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
 ADD etc/consul.d/check_diamond.json /etc/consul.d/check_diamond.json
 
-
-ADD yum-cache/clustershell /tmp/yum-cache/clustershell
-RUN yum install -y /tmp/yum-cache/clustershell/python-clustershell-* && \
-    rm -rf /tmp/yum-cache/clustershell
-
-# setup
-#RUN yum install -y python-netifaces python-envoy
-#ADD etc/qnib-setup.cfg /etc/
-#ADD etc/supervisord.d/setup.ini /etc/supervisord.d/setup.ini
-
 ## confd
 ADD usr/local/bin/confd /usr/local/bin/confd
-RUN mkdir -p /etc/confd/{conf.d,templates} && \
-    yum install -y python-qnibsetup
+RUN mkdir -p /etc/confd/{conf.d,templates}
 
 ## logstash-forwarder certificates
 ADD etc/pki/tls/ /etc/pki/tls/
-
-## syslog-ng
-
 
 RUN echo 'alias qsetup="PYTHONPATH=/data/usr/lib/python2.7/site-packages/ /data/usr/local/bin/qnib-setup.py"' >> /etc/bashrc
 RUN echo "alias disable_setup='grep autostart /etc/supervisord.d/setup.ini||sed -i -e \"/command/a autostart=false\" /etc/supervisord.d/setup.ini'" >> /etc/bashrc
