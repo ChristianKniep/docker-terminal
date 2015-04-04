@@ -54,11 +54,6 @@ ADD yum-cache/clustershell /tmp/yum-cache/clustershell
 RUN yum install -y /tmp/yum-cache/clustershell/python-clustershell-* && \
     rm -rf /tmp/yum-cache/clustershell
 
-# setup
-#RUN yum install -y python-netifaces python-envoy
-#ADD etc/qnib-setup.cfg /etc/
-#ADD etc/supervisord.d/setup.ini /etc/supervisord.d/setup.ini
-
 ## confd
 ADD usr/local/bin/confd /usr/local/bin/confd
 RUN mkdir -p /etc/confd/{conf.d,templates} && \
