@@ -33,13 +33,6 @@ RUN echo "        StrictHostKeyChecking no" >> /etc/ssh/ssh_config && \
     echo "        UserKnownHostsFile=/dev/null" >> /etc/ssh/ssh_config && \
     echo "        AddressFamily inet" >> /etc/ssh/ssh_config
 
-# carboniface
-ADD yum-cache/carboniface /tmp/yum-cache/carboniface
-RUN yum install -y python-docopt /tmp/yum-cache/carboniface/python-carboniface-* /tmp/yum-cache/carboniface/python-schema-* && \
-    rm -rf /tmp/yum-cache/carboniface
-## TODO: Fix carboniface
-ADD usr/lib/python2.7/site-packages/carboniface.py /usr/lib/python2.7/site-packages/carboniface.py
-
 # Diamond
 RUN yum clean all; yum install -y --nogpgcheck python-configobj lm_sensors python-pysensors python-diamond && \
     rm -rf /etc/diamond && mkdir -p /var/log/diamond
@@ -49,21 +42,20 @@ ADD opt/qnib/bin/start_diamond.sh /opt/qnib/bin/start_diamond.sh
 ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
 ADD etc/consul.d/check_diamond.json /etc/consul.d/check_diamond.json
 
-
-ADD yum-cache/clustershell /tmp/yum-cache/clustershell
-RUN yum install -y /tmp/yum-cache/clustershell/python-clustershell-* && \
-    rm -rf /tmp/yum-cache/clustershell
-
-## confd
-ADD usr/local/bin/confd /usr/local/bin/confd
-RUN mkdir -p /etc/confd/{conf.d,templates} && \
-    yum install -y python-qnibsetup
-
 ## logstash-forwarder certificates
 ADD etc/pki/tls/ /etc/pki/tls/
 
 ## syslog-ng
 
-
 RUN echo 'alias qsetup="PYTHONPATH=/data/usr/lib/python2.7/site-packages/ /data/usr/local/bin/qnib-setup.py"' >> /etc/bashrc
 RUN echo "alias disable_setup='grep autostart /etc/supervisord.d/setup.ini||sed -i -e \"/command/a autostart=false\" /etc/supervisord.d/setup.ini'" >> /etc/bashrc
+
+RUN yum install -y python-pip && \
+    pip install envoy neo4jrestclient
+RUN yum install -y git-core make golang && cd /tmp/ && \
+    git clone https://github.com/hashicorp/consul-template.git && \
+    cd /tmp/consul-template && \
+    GOPATH=/root/ make && \
+    mv /tmp/consul-template/bin/consul-template /usr/local/bin/ && \
+    rm -rf /tmp/consul-template && \
+    yum remove -y make golang git-core
