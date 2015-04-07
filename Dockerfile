@@ -59,3 +59,6 @@ RUN yum install -y git-core make golang && cd /tmp/ && \
     mv /tmp/consul-template/bin/consul-template /usr/local/bin/ && \
     rm -rf /tmp/consul-template && \
     yum remove -y make golang git-core
+# dependencies needed by costum scripts (e.g. osquery)
+RUN yum install -y python-pip libyaml-devel python-devel && \
+    pip install neo4jrestclient pyyaml docopt python-consul jinja2
