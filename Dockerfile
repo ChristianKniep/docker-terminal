@@ -7,7 +7,7 @@ FROM qnib/consul
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 # Refresh yum
-RUN echo "2014-08-24";yum clean all && \
+RUN echo "2015-04-09";yum clean all && \
     yum install -y bind-utils vim nmap
 
 ##### USER
