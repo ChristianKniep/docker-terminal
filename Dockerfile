@@ -1,10 +1,8 @@
 FROM qnib/consul:cos7
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
-# Refresh yum
-RUN echo "2015-04-01";yum clean all && \
-    yum install -y http://ftp-stud.hs-esslingen.de/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm && \
-    yum install -y bind-utils vim nmap
+# Install basics
+RUN yum install -y bind-utils vim nmap
 
 ##### USER
 # Set (very simple) password for root
