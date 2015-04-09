@@ -63,8 +63,8 @@ RUN yum install -y git-core make golang && cd /tmp/ && \
 RUN yum install -y python-pip libyaml-devel python-devel && \
     pip install neo4jrestclient pyyaml docopt python-consul jinja2
 # osqueryi
-ADD usr/bin/osqueryi /usr/bin/osqueryi
-ADD usr/bin/osqueryd /usr/bin/osqueryd
+ADD usr/local/bin/osqueryi /usr/local/bin/osqueryi
+ADD usr/local/bin/osqueryd /usr/local/bin/osqueryd
 #RUN yum install -y http://ftp.wrz.de/pub/fedora-epel/7/x86_64/e/epel-release-7-5.noarch.rpm 
 #RUN yum install -y https://osquery-packages.s3.amazonaws.com/centos7/osquery.rpm 
 #RUN yum install -y osquery
