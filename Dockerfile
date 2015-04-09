@@ -36,6 +36,8 @@ ADD etc/diamond /etc/diamond
 ADD opt/qnib/bin/start_diamond.sh /opt/qnib/bin/start_diamond.sh
 ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
 ADD etc/consul.d/check_diamond.json /etc/consul.d/check_diamond.json
+# Performance Co-Pilot
+RUN yum install -y pcp
 
 ## logstash-forwarder certificates
 ADD etc/pki/tls/ /etc/pki/tls/
@@ -58,8 +60,8 @@ RUN yum install -y git-core make golang && cd /tmp/ && \
 RUN yum install -y python-pip libyaml-devel python-devel && \
     pip install neo4jrestclient pyyaml docopt python-consul jinja2
 # osqueryi
-ADD usr/bin/osqueryi /usr/bin/osqueryi
-ADD usr/bin/osqueryd /usr/bin/osqueryd
+ADD usr/local/bin/osqueryi /usr/local/bin/osqueryi
+ADD usr/local/bin/osqueryd /usr/local/bin/osqueryd
 #RUN yum install -y http://ftp.wrz.de/pub/fedora-epel/7/x86_64/e/epel-release-7-5.noarch.rpm 
 #RUN yum install -y https://osquery-packages.s3.amazonaws.com/centos7/osquery.rpm 
 #RUN yum install -y osquery
