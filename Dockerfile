@@ -7,7 +7,7 @@ FROM qnib/consul
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 # Refresh yum
-RUN echo "2015-04-09";yum clean all && \
+RUN echo "2015-04-24";yum clean all && \
     yum install -y bind-utils vim nmap
 
 ##### USER
@@ -45,11 +45,6 @@ ADD etc/consul.d/check_diamond.json /etc/consul.d/check_diamond.json
 ## logstash-forwarder certificates
 ADD etc/pki/tls/ /etc/pki/tls/
 
-## syslog-ng
-
-RUN echo 'alias qsetup="PYTHONPATH=/data/usr/lib/python2.7/site-packages/ /data/usr/local/bin/qnib-setup.py"' >> /etc/bashrc
-RUN echo "alias disable_setup='grep autostart /etc/supervisord.d/setup.ini||sed -i -e \"/command/a autostart=false\" /etc/supervisord.d/setup.ini'" >> /etc/bashrc
-
 RUN yum install -y python-pip && \
     pip install envoy neo4jrestclient
 RUN yum install -y git-core make golang && cd /tmp/ && \
@@ -62,6 +57,7 @@ RUN yum install -y git-core make golang && cd /tmp/ && \
 # dependencies needed by costum scripts (e.g. osquery)
 RUN yum install -y python-pip libyaml-devel python-devel && \
     pip install neo4jrestclient pyyaml docopt python-consul jinja2
+RUN pip install --upgrade pip
 # osqueryi
 ADD usr/local/bin/osqueryi /usr/local/bin/osqueryi
 ADD usr/local/bin/osqueryd /usr/local/bin/osqueryd
