@@ -232,7 +232,10 @@ class WatchPs(object):
     def run(self):
         """ run the function
         """
-        cnt = {}
+        cnt = {
+            "state": {},
+            "user": {}
+            }
         for proc in psutil.process_iter():
             try:
                 pinfo = proc.as_dict(attrs=['pid', 'name', 'username'])
@@ -248,6 +251,10 @@ class WatchPs(object):
             except psutil.AccessDenied:
                 pass
             else:
+                if pinfo['username'] != "root":
+                    if pinfo['username'] not in cnt['user']:
+                        cnt['user'][pinfo['username']] = 0
+                    cnt['user'][pinfo['username']] += 1
                 if pinfo['name'] == 'bash':
                     continue
                 if pinfo['name'] == 'python':
@@ -256,9 +263,9 @@ class WatchPs(object):
                         pinfo['name'] = mat.group(1)
                 if pinfo['name'] in ("watch_psutil", "sleep"):
                     continue
-                if pinfo['state'] not in cnt:
-                    cnt[pinfo['state']] = 0
-                cnt[pinfo['state']] += 1
+                if pinfo['state'] not in cnt['state']:
+                    cnt['state'][pinfo['state']] = 0
+                cnt['state'][pinfo['state']] += 1
                 if pinfo['state'] != "running":
                     continue
                 mkey = "%(username)s.%(name)s" % pinfo
@@ -267,7 +274,10 @@ class WatchPs(object):
                         continue
                     self._gsend.send("%s.%s" % (mkey, key), val)
                     self._cfg._logger.debug("%s.%s %s" % (mkey, key, val))
-        for key, val in cnt.items():
+        for key, val in cnt['user'].items():
+            self._gsend.send("user.%s" % key, val)
+            self._cfg._logger.debug("state.%s %s" % (key, val))
+        for key, val in cnt['state'].items():
             self._gsend.send("state.%s" % key, val)
             self._cfg._logger.debug("state.%s %s" % (key, val))
 
