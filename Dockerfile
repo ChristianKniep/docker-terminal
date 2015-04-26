@@ -58,6 +58,7 @@ RUN yum install -y git-core make golang && cd /tmp/ && \
 RUN yum install -y python-pip libyaml-devel python-devel && \
     pip install neo4jrestclient pyyaml docopt python-consul jinja2
 RUN pip install --upgrade pip
+RUN pip install psutil graphitesend
 ADD opt/qnib/bin/watch_psutil.py /opt/qnib/bin/
 ADD etc/supervisord.d/watchpsutil.ini /etc/supervisord.d/
 # osqueryi
