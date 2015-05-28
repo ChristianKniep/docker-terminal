@@ -7,6 +7,7 @@ FROM qnib/consul
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 # Refresh yum
+ENV TERM=xterm
 RUN echo "2015-05-28";yum clean all && \
     yum install -y bind-utils vim nmap
 
