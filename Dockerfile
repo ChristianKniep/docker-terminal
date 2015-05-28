@@ -7,7 +7,7 @@ FROM qnib/consul
 MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 # Refresh yum
-RUN echo "2015-04-24";yum clean all && \
+RUN echo "2015-05-28";yum clean all && \
     yum install -y bind-utils vim nmap
 
 ##### USER
@@ -34,7 +34,7 @@ RUN echo "        StrictHostKeyChecking no" >> /etc/ssh/ssh_config && \
     echo "        AddressFamily inet" >> /etc/ssh/ssh_config
 
 # Diamond
-RUN yum clean all; yum install -y --nogpgcheck python-configobj lm_sensors python-pysensors python-diamond && \
+RUN yum install -y --nogpgcheck python-configobj lm_sensors python-pysensors python-diamond && \
     rm -rf /etc/diamond && mkdir -p /var/log/diamond
 ADD etc/diamond /etc/diamond
 ADD etc/diamond/handlers/GraphiteHandler.conf /etc/diamond/handlers/GraphiteHandler.conf
