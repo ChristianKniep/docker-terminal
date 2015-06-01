@@ -48,13 +48,11 @@ ADD etc/pki/tls/ /etc/pki/tls/
 
 RUN yum install -y python-pip && \
     pip install envoy neo4jrestclient
-RUN yum install -y git-core make golang && cd /tmp/ && \
-    git clone https://github.com/hashicorp/consul-template.git && \
-    cd /tmp/consul-template && \
-    GOPATH=/root/ make && \
-    mv /tmp/consul-template/bin/consul-template /usr/local/bin/ && \
-    rm -rf /tmp/consul-template && \
-    yum remove -y make golang git-core
+### consul-template
+ENV CT_VER 0.9.0
+RUN wget -q -O /tmp/consul-template.tar.gz https://github.com/hashicorp/consul-template/releases/download/v${CT_VER}/consul-template_${CT_VER}_linux_amd64.tar.gz && \
+    tar xf /tmp/consul-template.tar.gz && mv /root/consul-template_${CT_VER}_linux_amd64/consul-template /usr/local/bin/ && \
+    rm -rf /root/consul-template_${CT_VER}_linux_amd64
 # dependencies needed by costum scripts (e.g. osquery)
 RUN yum install -y python-pip libyaml-devel python-devel && \
     pip install neo4jrestclient pyyaml docopt python-consul jinja2
