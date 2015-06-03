@@ -50,11 +50,13 @@ RUN yum install -y python-pip && \
     pip install envoy neo4jrestclient
 ### consul-template
 ENV CT_VER 0.9.0
+WORKDIR /tmp/
 RUN wget -q -O /tmp/consul-template.tar.gz https://github.com/hashicorp/consul-template/releases/download/v${CT_VER}/consul-template_${CT_VER}_linux_amd64.tar.gz && \
-    tar xf /tmp/consul-template.tar.gz && mv /root/consul-template_${CT_VER}_linux_amd64/consul-template /usr/local/bin/ && \
-    rm -rf /root/consul-template_${CT_VER}_linux_amd64
+    tar xf /tmp/consul-template.tar.gz && mv /tmp/consul-template_${CT_VER}_linux_amd64/consul-template /usr/local/bin/ && \
+    rm -rf /tmp/consul-template_${CT_VER}_linux_amd64
+WORKDIR /root/
 # dependencies needed by costum scripts (e.g. osquery)
-RUN yum install -y python-pip libyaml-devel python-devel && \
+RUN yum install -y python-pip libyaml-devel python-devel gcc && \
     pip install neo4jrestclient pyyaml docopt python-consul jinja2
 RUN pip install --upgrade pip
 RUN pip install psutil graphitesend
