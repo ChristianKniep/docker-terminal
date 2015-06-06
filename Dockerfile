@@ -53,8 +53,8 @@ RUN yum install -y gcc python-pip libyaml-devel python-devel && \
     pip install envoy neo4jrestclient pyyaml docopt python-consul jinja2 && \
     pip install --upgrade pip && \
     pip install psutil graphitesend
-#ADD opt/qnib/bin/watch_psutil.py /opt/qnib/bin/
-#ADD etc/supervisord.d/watchpsutil.ini /etc/supervisord.d/
+ADD opt/qnib/bin/watch_psutil.py /opt/qnib/bin/
+ADD etc/supervisord.d/watchpsutil.ini /etc/supervisord.d/
 # osqueryi
 #ADD usr/local/bin/osqueryi /usr/local/bin/osqueryi
 #ADD usr/local/bin/osqueryd /usr/local/bin/osqueryd
