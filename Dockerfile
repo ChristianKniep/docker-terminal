@@ -35,13 +35,13 @@ RUN echo "2015-05-28";yum clean all && \
 #    echo "        AddressFamily inet" >> /etc/ssh/ssh_config
 #
 ## Diamond
-#RUN yum install -y --nogpgcheck python-configobj lm_sensors python-pysensors python-diamond && \
-#    rm -rf /etc/diamond && mkdir -p /var/log/diamond
-#ADD etc/diamond /etc/diamond
-#ADD etc/diamond/handlers/GraphiteHandler.conf /etc/diamond/handlers/GraphiteHandler.conf
-#ADD opt/qnib/bin/start_diamond.sh /opt/qnib/bin/start_diamond.sh
-#ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
-#ADD etc/consul.d/check_diamond.json /etc/consul.d/check_diamond.json
+RUN yum install -y --nogpgcheck python-configobj lm_sensors python-pysensors python-diamond && \
+    rm -rf /etc/diamond && mkdir -p /var/log/diamond
+ADD etc/diamond /etc/diamond
+ADD etc/diamond/handlers/GraphiteHandler.conf /etc/diamond/handlers/GraphiteHandler.conf
+ADD opt/qnib/bin/start_diamond.sh /opt/qnib/bin/start_diamond.sh
+ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
+ADD etc/consul.d/check_diamond.json /etc/consul.d/check_diamond.json
 #
 ### logstash-forwarder certificates
 #ADD etc/pki/tls/ /etc/pki/tls/
