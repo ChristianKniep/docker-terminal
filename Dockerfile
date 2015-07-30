@@ -1,10 +1,5 @@
 ###### QNIBTerminal images
-# A docker image that includes
-# - init (supervisord)
-# - syslog (syslog-ng)
-# - profiling (diamond)
 FROM qnib/consul
-MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 # Refresh yum
 ENV TERM=xterm
