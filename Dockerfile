@@ -8,8 +8,7 @@ MAINTAINER "Christian Kniep <christian@qnib.org>"
 
 # Refresh yum
 ENV TERM=xterm
-RUN echo "2015-05-28";yum clean all && \
-    yum install -y bind-utils vim nmap
+RUN yum install -y bind-utils vim nmap
 
 ## Diamond
 RUN yum install -y --nogpgcheck python-configobj lm_sensors python-pysensors python-diamond && \
