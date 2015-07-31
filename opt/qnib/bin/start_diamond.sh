@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ "X${COLLECT_METRICS}" != "Xtrue" ];then
+    echo "Do not start metrics collector (COLLECT_METRICS != true)"
+    return 0
+fi
+
 PIDFILE=/var/run/diamond.pid
 
 ## Wait for consul to start
