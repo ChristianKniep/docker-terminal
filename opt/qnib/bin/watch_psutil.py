@@ -227,7 +227,7 @@ class WatchPs(object):
             self._gsend = graphitesend.init(graphite_server=self._cfg['--carbon-host'], prefix=pre)
         except graphitesend.GraphiteSendException:
             time.sleep(5)
-            self.con_gsend()
+            self.cnt_gsend()
 
     def run(self):
         """ run the function
