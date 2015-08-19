@@ -3,7 +3,7 @@ FROM qnib/consul
 
 # Refresh yum
 ENV TERM=xterm
-RUN yum install -y bind-utils vim nmap
+RUN echo "2015-08-20"; yum install -y bind-utils vim nmap
 
 ## Diamond
 RUN yum install -y --nogpgcheck python-configobj lm_sensors python-pysensors python-diamond && \
