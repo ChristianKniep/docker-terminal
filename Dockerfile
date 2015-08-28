@@ -13,7 +13,6 @@ ADD etc/diamond/handlers/GraphiteHandler.conf /etc/diamond/handlers/GraphiteHand
 ADD opt/qnib/bin/start_diamond.sh /opt/qnib/bin/start_diamond.sh
 ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
 ADD etc/consul.d/check_diamond.json /etc/consul.d/check_diamond.json
-#
 
 # dependencies needed by costum scripts (e.g. osquery)
 RUN yum install -y gcc python-pip libyaml-devel python-devel && \

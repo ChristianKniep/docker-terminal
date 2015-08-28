@@ -209,6 +209,9 @@ class WatchPs(object):
         """ Init of instance
         """
         self._cfg = cfg
+        if 'SKIP_PSWATCH' in environ:
+            time.sleep(1)
+            sys.exit(0)
         self.cnt_gsend()
 
     def loop(self):
