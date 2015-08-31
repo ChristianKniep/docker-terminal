@@ -2,7 +2,7 @@
 
 if [ "X${COLLECT_METRICS}" != "Xtrue" ];then
     echo "Do not start metrics collector (COLLECT_METRICS != true)"
-    return 0
+    exit 0
 fi
 
 PIDFILE=/var/run/diamond.pid
@@ -18,15 +18,19 @@ if [ ${EC} -eq 1 ];then
     pipework --wait
 fi
 
-HANDLER=""
+HANDLER=${DIAMOND_HANDLER}
 # if consul in env, join
 INFLX_HOST=$(dig @localhost -p 8600 +time=5 +tries=1 influxdb.service.dc1.consul ANY +short)
 if [ "X${INFLX_HOST}" != "X" ];then
-   HANDLER="${HANDLER} diamond.handler.influxdbHandler.InfluxdbHandler"
+    HANDLER="${HANDLER} diamond.handler.influxdbHandler.InfluxdbHandler"
 fi
 CARBON_HOST=$(dig @localhost -p 8600 +time=5 +tries=1 carbon.service.dc1.consul ANY +short)
 if [ "X${CARBON_HOST}" != "X" ];then
-   HANDLER="${HANDLER} diamond.handler.graphite.GraphiteHandler"
+    HANDLER="${HANDLER} diamond.handler.graphite.GraphiteHandler"
+fi
+if [ "X${HANDLER}" == "X" ];then
+    echo "Do not start metrics collector (no HANDLER found)"
+    exit 0
 fi
 # Change handler
 sed -i -e "s/handlers =.*/handlers = $(echo ${HANDLER}|sed -e 's/^ //'|sed -e 's/ /,/g')" /etc/diamond/diamond.conf
