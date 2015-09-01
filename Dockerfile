@@ -37,30 +37,11 @@ ADD etc/consul.d/check_diamond.json /etc/consul.d/check_diamond.json
 # Performance Co-Pilot
 RUN yum install -y pcp
 
-## logstash-forwarder certificates
-ADD etc/pki/tls/ /etc/pki/tls/
-
-## syslog-ng
-
-RUN echo 'alias qsetup="PYTHONPATH=/data/usr/lib/python2.7/site-packages/ /data/usr/local/bin/qnib-setup.py"' >> /etc/bashrc
-RUN echo "alias disable_setup='grep autostart /etc/supervisord.d/setup.ini||sed -i -e \"/command/a autostart=false\" /etc/supervisord.d/setup.ini'" >> /etc/bashrc
-
-RUN yum install -y python-pip && \
-    pip install envoy neo4jrestclient
-RUN yum install -y git-core make golang && cd /tmp/ && \
-    git clone https://github.com/hashicorp/consul-template.git && \
-    cd /tmp/consul-template && \
-    GOPATH=/root/ make && \
-    mv /tmp/consul-template/bin/consul-template /usr/local/bin/ && \
-    rm -rf /tmp/consul-template && \
-    yum remove -y make golang git-core
 # dependencies needed by costum scripts (e.g. osquery)
-RUN yum install -y python-pip libyaml-devel python-devel && \
-    pip install neo4jrestclient pyyaml docopt python-consul jinja2
-# osqueryi
-ADD usr/local/bin/osqueryi /usr/local/bin/osqueryi
-ADD usr/local/bin/osqueryd /usr/local/bin/osqueryd
-#RUN yum install -y http://ftp.wrz.de/pub/fedora-epel/7/x86_64/e/epel-release-7-5.noarch.rpm 
-#RUN yum install -y https://osquery-packages.s3.amazonaws.com/centos7/osquery.rpm 
-#RUN yum install -y osquery
+RUN yum install -y gcc python-pip libyaml-devel python-devel && \
+    pip install --upgrade pip && \
+    pip install envoy neo4jrestclient pyyaml docopt python-consul jinja2 && \
+    pip install psutil graphitesend
+ADD opt/qnib/bin/watch_psutil.py /opt/qnib/bin/
+ADD etc/supervisord.d/watchpsutil.ini /etc/supervisord.d/
 
