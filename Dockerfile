@@ -2,7 +2,9 @@
 FROM qnib/consul
 
 # Refresh yum
-ENV TERM=xterm
+ENV TERM=xterm \
+    BOOTSTRAP_CONSUL=false \
+    RUN_SERVER=false
 RUN echo "2015-08-20"; yum install -y bind-utils vim nmap
 
 ## Diamond
