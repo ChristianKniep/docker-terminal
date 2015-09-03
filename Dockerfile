@@ -1,5 +1,5 @@
 ###### QNIBTerminal images
-FROM qnib/consul
+FROM qnib/consul:dev
 
 # Refresh yum
 ENV TERM=xterm \
