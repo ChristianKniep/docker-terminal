@@ -2,6 +2,9 @@
 
 if [ "X${COLLECT_METRICS}" != "Xtrue" ];then
     echo "Do not start metrics collector (COLLECT_METRICS != true)"
+    rm -f /etc/consul.d/check_diamond.json
+    sleep 1
+    consul reload
     exit 0
 fi
 
