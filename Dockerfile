@@ -5,7 +5,7 @@ FROM qnib/consul
 ENV TERM=xterm \
     BOOTSTRAP_CONSUL=false \
     RUN_SERVER=false
-RUN echo "2015-09-27"; yum install -y bind-utils vim nmap
+RUN echo "2015-09-27"; yum install -y bind-utils vim nmap jq
 
 ## Diamond
 RUN yum install -y --nogpgcheck gcc python-devel  python-configobj lm_sensors python-pip && \
