@@ -36,6 +36,7 @@ if [ "X${HANDLER}" == "X" ];then
     exit 0
 fi
 # Change handler
+HANDLER="${HANDLER}/"
 sed -i -e "s/handlers =.*/handlers = $(echo ${HANDLER}|sed -e 's/^ //'|sed -e 's/ /,/g')" /etc/diamond/diamond.conf
 
 diamond -f -l
