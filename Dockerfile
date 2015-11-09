@@ -1,21 +1,9 @@
 ###### QNIBTerminal images
-FROM qnib/consul
+FROM qnib/diamond
 
 # Refresh yum
-ENV TERM=xterm \
-    BOOTSTRAP_CONSUL=false \
-    RUN_SERVER=false
-RUN echo "2015-09-27"; yum install -y bind-utils vim nmap jq
-
-## Diamond
-RUN yum install -y --nogpgcheck gcc python-devel  python-configobj lm_sensors python-pip && \
-    pip install --upgrade pip && \
-    pip install diamond pysensors && \
-    rm -rf /etc/diamond && mkdir -p /var/log/diamond
-ADD etc/diamond /etc/diamond
-ADD opt/qnib/bin/start_diamond.sh /opt/qnib/bin/start_diamond.sh
-ADD etc/supervisord.d/diamond.ini /etc/supervisord.d/diamond.ini
-ADD etc/consul.d/check_diamond.json /etc/consul.d/check_diamond.json
+ENV TERM=xterm 
+RUN echo "2015-09-27"; yum install -y bind-utils vim nmap
 
 # dependencies needed by costum scripts (e.g. osquery)
 RUN yum install -y libyaml-devel && \
