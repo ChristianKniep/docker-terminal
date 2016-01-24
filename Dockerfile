@@ -1,5 +1,4 @@
-FROM qnib/consul:cos7
-MAINTAINER "Christian Kniep <christian@qnib.org>"
+FROM qnib/diamond:cos7
 
 # Install basics
 RUN yum install -y bind-utils vim nmap
