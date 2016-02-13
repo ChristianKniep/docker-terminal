@@ -1,5 +1,5 @@
 ###### QNIBTerminal images
-FROM qnib/sensu
+FROM qnib/diamond
 
 # Refresh yum
 ENV TERM=xterm 
